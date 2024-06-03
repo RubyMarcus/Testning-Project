@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Define the virtual environments
+environments=("venv-3.8" "venv-3.9" "venv-3.10")
+
+# Loop through each environment and run tests
+for env in "${environments[@]}"
+do
+	eval "$(pyenv init -)"		
+    pyenv activate "$env"
+    echo "Running tests with $env"
+    python -m unittest example_test_suite_v2.py
+    pyenv deactivate
+done
+

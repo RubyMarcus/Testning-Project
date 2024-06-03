@@ -14,7 +14,7 @@ def hash_file(filename):
             h.update(chunk)
 
     # return
-    h.hexdigest()
+    return h.hexdigest()
     
 
 def load_hashes(filename):
