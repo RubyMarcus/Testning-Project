@@ -4,6 +4,7 @@ import os
 import platform
 from compare_hashes import hash_file
 from colorama import init, Fore, Style
+import glob
 
 # Initialize colorama
 init(autoreset=True)
@@ -23,6 +24,8 @@ class TestPickleStability(unittest.TestCase):
         self.pickle_filename = "test_pickle.pkl"
         self.recursive_data = {}
         self.recursive_data["self"] = self.recursive_data
+
+        self.hash_filename = f"hash_{platform.system()}_{platform.python_version()}.txt"
 
     def tearDown(self):
         if os.path.exists(self.pickle_filename):
@@ -65,6 +68,12 @@ class TestPickleStability(unittest.TestCase):
             pickle.dump(self.data, file)
 
         hash_value = hash_file(self.pickle_filename)
+
+        
+        # Write the hash value to a file
+        with open(self.hash_filename, 'w') as test_hash_comparison:
+            test_hash_comparison.write(hash_value)
+
         print(Fore.GREEN + f"Hash on {platform.system()} with Python {platform.python_version()}: {hash_value}")
 
     def test_floating_point_accuracy(self):

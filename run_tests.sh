@@ -21,3 +21,5 @@ do
     pyenv deactivate
 done
 
+echo "Comparing hash values across environments"
+python3 -m unittest test_hash_comparision.py 

@@ -16,7 +16,6 @@ def hash_file(filename):
     # return
     return h.hexdigest()
     
-
 def load_hashes(filename):
     hashes = {}
     with open(filename, 'r') as f:
