@@ -11,9 +11,9 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v3  # Updated to the latest version to avoid Node.js deprecation issues
+      - uses: actions/checkout@v3
       - name: Set up Python
-        uses: actions/setup-python@v4  # Updated to the latest version to avoid Node.js deprecation issues
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
@@ -28,18 +28,18 @@ jobs:
             echo %CD%
           else
             pwd
-          endif
+          fi
       - name: List directory contents
         run: |
           if [ "${{ runner.os }}" == 'Windows' ]; then
             dir
           else
             ls -al
-          endif
+          fi
       - name: Run tests
         run: |
           if [ "${{ runner.os }}" == 'Windows' ]; then
             python -m unittest discover
           else
             python -m unittest example_test_suite_v2.py
-          endif
+          fi
