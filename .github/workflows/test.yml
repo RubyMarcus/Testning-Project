@@ -1,4 +1,4 @@
-on:  [push, pull_request]
+on: [push, pull_request]
 
 jobs:
   test:
@@ -17,17 +17,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          # List installed packages for debugging
           pip list
       - name: Check Python version
         run: python --version
       - name: Check working directory
-        run: pwd  # or use `echo %CD%` for Windows, if necessary
+        run: pwd
       - name: List directory contents
-        run: |
-          if [ "${{ runner.os }}" = "Windows" ]; then
-            Get-ChildItem
-          else
-            ls -al
-          endif
+        run: ls -al
       - name: Run tests
         run: python -m unittest example_test_suite_v2.py
