@@ -25,9 +25,9 @@ class PickleTestBase(unittest.TestCase):
             pickle.dump(data, file)
         return hash_file(self.pickle_filename)
 
-    def write_to_file(self, final_hash): 
+    def write_to_file(self, data_type, final_hash): 
         with open(self.hash_file_path, 'a') as file:
-            file.write(final_hash)
+            file.write(f"{data_type}: {final_hash}\n")
             
 
     def compare_hashes(self, initial_hash, final_hash):
@@ -91,7 +91,7 @@ class TestPickleStability(PickleTestBase):
         print(Fore.GREEN + "Pickle stability test passed. Hashes match.")
         
         # Save to file
-        self.write_to_file(final_hash)
+        self.write_to_file("Original data", final_hash)
 
     """
     def test_cross_environment_stability(self):
@@ -131,7 +131,7 @@ class TestPickleStability(PickleTestBase):
         print(Fore.GREEN + "Floating point accuracy test passed. Hashes match.")
 
         # Save to file
-        self.write_to_file(final_hash)
+        self.write_to_file("fp_accuracy", final_hash)
 
     def test_recursive_data_structures(self):
         print(Fore.CYAN + "\nRunning test_recursive_data_structures...")
@@ -153,7 +153,7 @@ class TestPickleStability(PickleTestBase):
         print(Fore.GREEN + "Recursive data structure test passed. Hashes match.")
 
         # Save to file
-        self.write_to_file(final_hash)
+        self.write_to_file("Recursive_data", final_hash)
 
     def test_various_data_types(self):
         print(Fore.CYAN + "\nRunning test_various_data_types...")
@@ -174,7 +174,7 @@ class TestPickleStability(PickleTestBase):
         print(Fore.GREEN + "Various data types test passed. Hashes match.")
 
         # Save to file
-        self.write_to_file(final_hash)
+        self.write_to_file("Extended_data", final_hash)
 
 if __name__ == '__main__':
     unittest.main()
