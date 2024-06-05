@@ -176,6 +176,31 @@ class TestPickleStability(PickleTestBase):
         # Save to file
         self.write_to_file("Extended_data", final_hash)
 
+    def test_dynamic_code_execution(self):
+        print(Fore.CYAN + "\nRunning test_dynamic_code_execution...")
+
+        class EvalObject:
+            def __reduce__(self):
+                return (eval, ("1 + 2",))
+
+        data = EvalObject()
+
+        initial_hash = self.serialize_and_hash(data)
+        print(Fore.GREEN + f"Initial hash: {initial_hash}")
+
+        with open(self.pickle_filename, 'rb') as file:
+            loaded_data = pickle.load(file)
+
+        final_hash = self.serialize_and_hash(loaded_data)
+        print(Fore.GREEN + f"Final hash: {final_hash}")
+
+        try:
+            self.compare_hashes(initial_hash, final_hash)
+            print(Fore.GREEN + "Dynamic code execution test passed. Hashes match.")
+        finally:
+            self.write_to_file("Dynamic_code", final_hash)
+
+
 if __name__ == '__main__':
     unittest.main()
 
