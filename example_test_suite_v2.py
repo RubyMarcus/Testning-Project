@@ -7,6 +7,12 @@ from colorama import init, Fore, Style
 import glob
 from decimal import Decimal, getcontext
 import array
+from threading import Thread
+import locale
+from pathlib import Path
+import time
+import ctypes
+#import resource
 
 # Initialize colorama
 init(autoreset=True)
@@ -360,6 +366,174 @@ class TestPickleStability(PickleTestBase):
         # Save to file
         self.write_to_file("function_memory_address", final_hash)
 
+    def run_pickle_operations(self, data, results, index):
+        results[index] = self.serialize_and_hash(data)
+
+    def test_thread_safety_in_serialization(self):
+        print(Fore.CYAN + "\nRunning test_thread_safety_in_serialization...")
+        num_threads = 10
+        threads = []
+        results = [None] * num_threads
+
+        # Launch multiple threads to perform pickling
+        for i in range(num_threads):
+            thread = Thread(target=self.run_pickle_operations, args=(self.data, results, i))
+            threads.append(thread)
+            thread.start()
+
+        for thread in threads:
+            thread.join()
+
+        # Verify that all threads produced the same hash
+        first_hash = results[0]
+        for i in range(1, num_threads):
+            self.compare_hashes(first_hash, results[i])
+
+        print(Fore.GREEN + "All thread serialization results match.")
+        self.write_to_file("thread_safety", first_hash)
+
+    def test_locale_sensitivity(self):
+        print(Fore.CYAN + "\nRunning test_locale_sensitivity...")
+        locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+        us_hash = self.serialize_and_hash(self.data)
+
+        locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
+        de_hash = self.serialize_and_hash(self.data)
+
+        print(Fore.GREEN + f"US locale hash: {us_hash}")
+        print(Fore.GREEN + f"German locale hash: {de_hash}")
+
+        self.compare_hashes(us_hash, de_hash)
+        print(Fore.GREEN + "Locale serialization test passed.")
+        self.write_to_file("locale_sensitivity", us_hash)
+
+    def test_filesystem_path_serialization(self):
+        print(Fore.CYAN + "\nRunning test_filesystem_path_serialization...")
+        # Using a relative path to avoid OS-specific root directories
+        path = Path("path/to/resource")
+        initial_hash = self.serialize_and_hash(path)
+        print(Fore.GREEN + f"Initial hash: {initial_hash}")
+
+        # Deserialize and serialize again
+        with open(self.pickle_filename, 'rb') as file:
+            loaded_data = pickle.load(file)
+
+        final_hash = self.serialize_and_hash(loaded_data)
+        print(Fore.GREEN + f"Final hash: {final_hash}")
+
+        self.compare_hashes(initial_hash, final_hash)
+        print(Fore.GREEN + "Filesystem path serialization test passed.")
+        self.write_to_file("filesystem_paths", initial_hash)
+
+    def test_line_endings_serialization(self):
+        print(Fore.CYAN + "\nRunning test_line_endings_serialization...")
+        # Standardize on Unix line endings for the test
+        text = "Hello\nWorld"
+
+        initial_hash = self.serialize_and_hash(text)
+        print(Fore.GREEN + f"Initial hash: {initial_hash}")
+
+        # Deserialize and serialize again
+        with open(self.pickle_filename, 'rb') as file:
+            loaded_data = pickle.load(file)
+
+        final_hash = self.serialize_and_hash(loaded_data)
+        print(Fore.GREEN + f"Final hash: {final_hash}")
+
+        self.compare_hashes(initial_hash, final_hash)
+        print(Fore.GREEN + "Line endings serialization test passed.")
+        self.write_to_file("line_endings", initial_hash)
+
+    def test_environment_variable_effect(self):
+        print(Fore.CYAN + "\nRunning test_environment_variable_effect...")
+        # Use a static dictionary to simulate environment variables
+        env_vars = {"PATH": "/usr/bin:/bin", "HOME": "/home/user"}
+
+        initial_hash = self.serialize_and_hash(env_vars)
+        print(Fore.GREEN + f"Initial hash: {initial_hash}")
+
+        # Deserialize and serialize again
+        with open(self.pickle_filename, 'rb') as file:
+            loaded_data = pickle.load(file)
+
+        final_hash = self.serialize_and_hash(loaded_data)
+        print(Fore.GREEN + f"Final hash: {final_hash}")
+
+        self.compare_hashes(initial_hash, final_hash)
+        print(Fore.GREEN + "Environment variable simulation test passed.")
+        self.write_to_file("environment_variables", initial_hash)
+        
+### Differencing between 32-bit and 64-bit Python installations
+    def test_ctypes_pointer_serialization(self):
+        print(Fore.CYAN + "\nRunning test_ctypes_pointer_serialization...")
+        int_array = (ctypes.c_int * 5)(*range(5))  # An array of integers
+
+        initial_hash = self.serialize_and_hash(ctypes.addressof(int_array))
+        print(Fore.GREEN + f"Initial hash: {initial_hash}")
+
+        # Attempting to deserialize this will likely not work or give different results,
+        # because raw pointers do not carry over meaningfully across different runs or systems.
+        # We expect this to fail or behave inconsistently, which is what we're testing for.
+        try:
+            with open(self.pickle_filename, 'rb') as file:
+                loaded_data = pickle.load(file)
+            final_hash = self.serialize_and_hash(loaded_data)
+            print(Fore.GREEN + f"Final hash: {final_hash}")
+            self.compare_hashes(initial_hash, final_hash)
+        except Exception as e:
+            print(Fore.RED + f"Expected error during deserialization: {str(e)}")
+            self.write_to_file("ctypes_memory", "Error")
+
+        print(Fore.GREEN + "Ctypes pointer serialization test completed.")
+        self.write_to_file("ctypes_pointers", initial_hash)
+
+    def test_integer_limits(self):
+        print(Fore.CYAN + "\nRunning test_integer_limits...")
+        # Use a very large integer that will behave differently in 32-bit vs 64-bit Python
+        large_integer = 2**31 - 1  # Maximum 32-bit signed integer value
+
+        initial_hash = self.serialize_and_hash(large_integer)
+        print(Fore.GREEN + f"Initial hash: {initial_hash}")
+
+        # Deserialize and serialize again
+        with open(self.pickle_filename, 'rb') as file:
+            loaded_data = pickle.load(file)
+
+        final_hash = self.serialize_and_hash(loaded_data)
+        print(Fore.GREEN + f"Final hash: {final_hash}")
+
+        self.compare_hashes(initial_hash, final_hash)
+        print(Fore.GREEN + "Integer limit test passed.")
+        self.write_to_file("integer_limits", initial_hash)
+
+        def test_pointer_size_serialization(self):
+            print(Fore.CYAN + "\nRunning test_pointer_size_serialization...")
+
+        # Create a simple object
+        obj = object()
+        # Get the memory address of the object, which is inherently a pointer
+        obj_id = id(obj)
+
+        # Serialize the numeric representation of the memory address
+        initial_hash = self.serialize_and_hash(obj_id)
+        print(Fore.GREEN + f"Initial hash of object id (memory address): {initial_hash}")
+
+        # Deserialize and serialize again to verify consistency within the same Python instance
+        with open(self.pickle_filename, 'rb') as file:
+            loaded_data = pickle.load(file)
+
+        final_hash = self.serialize_and_hash(loaded_data)
+        print(Fore.GREEN + f"Final hash after deserialization: {final_hash}")
+
+        # This test checks internal consistency but note that `id()` values are not guaranteed
+        # to be the same across different runs or different Python installations
+        self.compare_hashes(initial_hash, final_hash)
+        print(Fore.GREEN + "Pointer size serialization test passed.")
+        self.write_to_file("pointer_size", initial_hash)
+
+        # Note to self or other developers: The hash values here reflect memory addresses and are
+        # not expected to match across different Python installations (32-bit vs 64-bit), hence 
+        # this test is primarily illustrative and cannot use `compare_hashes` across installations.
 if __name__ == '__main__':
     unittest.main()
 
