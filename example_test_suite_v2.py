@@ -15,7 +15,12 @@ class PickleTestBase(unittest.TestCase):
 
     def setUp(self):
         self.pickle_filename = "test_pickle.pkl"
-        self.hash_file_path = f"hash_{platform.system()}_{platform.python_version()}.txt"
+        arch = platform.architecture()[0]
+        if arch == "32bit":
+            self.hash_file_path = f"hash_{platform.system()}_{platform.python_version()}_32bit.txt"
+        else:
+            self.hash_file_path = f"hash_{platform.system()}_{platform.python_version()}.txt"
+
 
     def tearDown(self):
         if os.path.exists(self.pickle_filename):
@@ -334,12 +339,13 @@ class TestPickleStability(PickleTestBase):
     def test_function_memory_address(self):
         print(Fore.CYAN + "\nRunning test_function_memory_address...")
 
-        # A simple lambda function that might serialize differently due to memory addresses embedding
-        func = lambda x: x + 1
+        # Use the named function instead of a lambda
+        func = increment_func
 
         initial_hash = self.serialize_and_hash(func)
         print(Fore.GREEN + f"Initial hash: {initial_hash}")
 
+        # Deserialize and serialize again
         print(Fore.BLUE + "Deserializing and re-serializing data...")
         with open(self.pickle_filename, 'rb') as file:
             loaded_data = pickle.load(file)
@@ -347,9 +353,11 @@ class TestPickleStability(PickleTestBase):
         final_hash = self.serialize_and_hash(loaded_data)
         print(Fore.GREEN + f"Final hash: {final_hash}")
 
+        # Check if both hashes are the same
         self.compare_hashes(initial_hash, final_hash)
         print(Fore.GREEN + "Function memory address test passed. Hashes match.")
 
+        # Save to file
         self.write_to_file("function_memory_address", final_hash)
 
 if __name__ == '__main__':
@@ -379,3 +387,5 @@ class MyClass(metaclass=Meta):
     def __init__(self, value):
         self.value = value
     
+def increment_func(x):
+    return x + 1
