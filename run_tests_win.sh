@@ -2,7 +2,7 @@
 # Check python version
 python --version
 # Define the virtual environments
-environments=("3.9.13" "3.10.1" "3.8.10")
+environments=("3.9.13" "3.10.1" "3.8.10" "3.10.1-win32")
 pyenv shell 3.10.1  # Ensure pyenv is initialized
 pyenv rehash
 pyenv vname
@@ -30,3 +30,5 @@ done
 
 echo "Comparing hash values across environments"
 python -m unittest test_hash_comparision.py
+
+read -p "Press any key to continue" x
