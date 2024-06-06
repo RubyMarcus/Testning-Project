@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the virtual environments
-environments=("venv-3.8" "venv-3.9" "venv-3.10")
+environments=("venv-3.6" "venv-3.7" "venv-3.8" "venv-3.9" "venv-3.10" "venv-3.11"  "venv-3.12")
 
 # Loop through each environment and run tests
 for env in "${environments[@]}"
