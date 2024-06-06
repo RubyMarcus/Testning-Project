@@ -15,7 +15,7 @@ do
     pip install colorama
 
     echo "Running tests with $env"
-    python -m unittest example_test_suite_v3.py
+    python -m unittest example_test_suite_v2.py
 
     echo "Deactivating virtual environment: $env"
     pyenv deactivate
