@@ -9,11 +9,27 @@ import glob
 # Initialize colorama
 init(autoreset=True)
 
+# Define CustomObject at the module level
+class CustomObject:
+    def __init__(self, value):
+        self.value = value
+
+    def __getstate__(self):
+        # Custom method to control what gets serialized
+        state = self.__dict__.copy()
+        state['value'] *= 2  # Just an example of manipulating the state
+        return state
+
+    def __setstate__(self, state):
+        # Custom method to control how the object is restored
+        state['value'] /= 2  # Restore original state
+        self.__dict__.update(state)
+
 class PickleTestBase(unittest.TestCase):
 
     def setUp(self):
         self.pickle_filename = "test_pickle.pkl"
-        self.hash_file_path = f"hash_{platform.system()}_{platform.python_version()}.txt"
+        self.hash_file_path = f"{platform.system()}/hash_{platform.system()}_{platform.python_version()}.txt"
 
     def tearDown(self):
         if os.path.exists(self.pickle_filename):
@@ -175,6 +191,28 @@ class TestPickleStability(PickleTestBase):
 
         # Save to file
         self.write_to_file("Extended_data", final_hash)
+
+    def test_custom_object_serialization(self):
+        """Test serialization of CustomObject."""
+
+        print(Fore.CYAN + "\nRunning custom_object...")
+
+        data = CustomObject(10)
+        initial_hash = self.serialize_and_hash(data)
+        print(Fore.GREEN + f"Initial hash: {initial_hash}")
+
+        with open(self.pickle_filename, 'rb') as file:
+            loaded_data = pickle.load(file)
+
+        final_hash = self.serialize_and_hash(loaded_data)
+        print(Fore.GREEN + f"Final hash: {final_hash}")
+
+        self.compare_hashes(initial_hash, final_hash)
+        print(Fore.GREEN + "Custom object code execution test passed. Hashes match.")
+
+        # Save to file
+        self.write_to_file("Custom_object", final_hash)
+
 
     def test_dynamic_code_execution(self):
         print(Fore.CYAN + "\nRunning test_dynamic_code_execution...")

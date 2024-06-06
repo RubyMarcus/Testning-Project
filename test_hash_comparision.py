@@ -2,6 +2,7 @@ import glob
 import unittest
 from collections import defaultdict
 from colorama import init, Fore
+import platform
 
 # Initialize colorama
 init(autoreset=True)
@@ -9,7 +10,11 @@ init(autoreset=True)
 class TestHashComparison(unittest.TestCase):
 
     def test_hash_comparison_across_environments(self):
-        hash_files = glob.glob("hash_Darwin*.txt")
+        # Detect the operating system
+        os_name = platform.system()
+        file_pattern = f"{os_name}/hash_{os_name}*.txt"
+
+        hash_files = glob.glob(file_pattern)
         hash_dict = defaultdict(dict)
 
         # Read hash files and store values
