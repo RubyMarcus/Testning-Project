@@ -12,7 +12,10 @@ class TestHashComparison(unittest.TestCase):
     def test_hash_comparison_across_environments(self):
         # Detect the operating system
         os_name = platform.system()
+        os_name = "Windows"
         file_pattern = f"{os_name}/hash_{os_name}*.txt"
+
+        print(f"Running for {os_name}")
 
         hash_files = glob.glob(file_pattern)
         hash_dict = defaultdict(dict)
