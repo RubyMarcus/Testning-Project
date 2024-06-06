@@ -38,9 +38,16 @@ class PickleTestBase(unittest.TestCase):
 
     def setUp(self):
         self.pickle_filename = "test_pickle.pkl"
-        #arch = platform.architecture()[0]
+
         system = platform.system()
         version = platform.python_version()
+        if system == "Windows":
+            arch = platform.architecture()[0]
+            if arch == "32bit":
+                system = "Windows32"
+            else:
+                system = "Windows"
+            print(Fore.YELLOW + f"System: {system}")
         self.hash_file_path = f"{system}/hash_{system}_{version}.txt"
 
     def tearDown(self):
