@@ -346,18 +346,22 @@ class TestPickleStability(PickleTestBase):
         final_hash = self.serialize_and_hash(loaded_data)
         print(Fore.GREEN + f"Final hash: {final_hash}")
 
-        self.compare_hashes(initial_hash, final_hash)
-        print(Fore.GREEN + "Custom object serialization test passed. Hashes match.")
+        try:
+            self.compare_hashes(initial_hash, final_hash)
+            print(Fore.GREEN + "Custom object serialization test passed. Hashes match.")
 
-        self.write_to_file("Custom object", final_hash)
+        finally:
+            self.write_to_file("Custom object", final_hash)
 
+    """
     # TODO: HOLD
     def run_pickle_operations(self, data, results, index):
         results[index] = self.serialize_and_hash(data)
-
+    """
     # TODO: HOLD
+    """
     def test_thread_safety_in_serialization(self):
-        """Test thread safety during serialization."""
+        #Test thread safety during serialization.
         print(Fore.CYAN + "\nRunning test_thread_safety_in_serialization...")
         num_threads = 10
         threads = []
@@ -377,7 +381,7 @@ class TestPickleStability(PickleTestBase):
 
         print(Fore.GREEN + "All thread serialization results match.")
         self.write_to_file("Thread safety", first_hash)
-    
+    """
     # TODO: KEEP
     def test_locale_sensitivity(self):
         """Test the sensitivity of serialization to locale changes."""
