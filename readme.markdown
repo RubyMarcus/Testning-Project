@@ -34,4 +34,6 @@ To run the project on Linux and macOS, you need to install Python versions 3.6 t
    - Run the test suite
    - Deactivate the environment
 5. **Compare Test Results:**
-   The script will also run **`test_hash_comparison`**, which compares the results across Python versions 3.6 to 3.12.
+   The bash script will also run **`test_hash_comparison`**, which compares the results across Python versions 3.6 to 3.12.
+
+### Prerequisites for Windows..
