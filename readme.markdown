@@ -37,3 +37,9 @@ To run the project on Linux and macOS, you need to install Python versions 3.6 t
    The bash script will also run **`test_hash_comparison`**, which compares the results across Python versions 3.6 to 3.12.
 
 ### Prerequisites for Windows..
+
+### Comparing result between operating systems.
+
+To compare the result gained from running the bash scripts on Windows, Linux and macOS, use the following command:
+   ```bash
+   python3 compare_all.py
