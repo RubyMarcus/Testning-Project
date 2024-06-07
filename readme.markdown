@@ -26,7 +26,7 @@ To run the project on Linux and macOS, you need to install Python versions 3.6 t
 4. **Running the Test Suite:**
    Run the following bash script to execute the test suite:
    ```bash
-   ./run_tests.sh
+   ./run_tests.sh```
 
    This script will:
    * Activate each Python environment
