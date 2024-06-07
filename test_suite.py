@@ -102,7 +102,6 @@ class TestPickleStability(PickleTestBase):
             "collections": [(1, 2), [1, 2], {1, 2}, {"key": "value"}],
         }
 
-    # TODO: KEEP
     def test_standard_data(self):
         """Test the pickling stability of standard data types."""
         print(Fore.CYAN + "\nRunning test_standard_data...")
@@ -121,7 +120,6 @@ class TestPickleStability(PickleTestBase):
 
         self.write_to_file("Standard data", final_hash)
 
-    # TODO: KEEP
     def test_floating_point_accuracy(self):
         """Test the pickling accuracy of floating-point data."""
         print(Fore.CYAN + "\nRunning test_floating_point_accuracy...")
@@ -142,7 +140,6 @@ class TestPickleStability(PickleTestBase):
 
         self.write_to_file("Floating point accuracy", final_hash)
 
-    # TODO: KEEP
     def test_high_precision_decimal_serialization(self):
         """Test the pickling of high-precision Decimal data."""
         print(Fore.CYAN + "\nRunning test_high_precision_decimal_serialization...")
@@ -163,7 +160,6 @@ class TestPickleStability(PickleTestBase):
 
         self.write_to_file("High precision decimal", final_hash)
 
-    # TODO: KEEP
     def test_recursive_data_structures(self):
         """Test the pickling of recursive data structures."""
         print(Fore.CYAN + "\nRunning test_recursive_data_structures...")
@@ -182,7 +178,6 @@ class TestPickleStability(PickleTestBase):
 
         self.write_to_file("Recursive data", final_hash)
 
-    # TODO: KEEP
     def test_various_data_types(self):
         """Test the pickling of various data types."""
         print(Fore.CYAN + "\nRunning test_various_data_types...")
@@ -201,7 +196,6 @@ class TestPickleStability(PickleTestBase):
 
         self.write_to_file("Extended data", final_hash)
 
-    # TODO: KEEP
     def test_dynamic_code_execution(self):
         """Test the pickling of dynamically executed code."""
         print(Fore.CYAN + "\nRunning test_dynamic_code_execution...")
@@ -227,7 +221,6 @@ class TestPickleStability(PickleTestBase):
         finally:
             self.write_to_file("Dynamic code", final_hash)
 
-    # TODO: KEEP
     def test_system_specific_types(self):
         """Test the pickling of system-specific types."""
         print(Fore.CYAN + "\nRunning test_system_specific_types...")
@@ -248,7 +241,6 @@ class TestPickleStability(PickleTestBase):
 
         self.write_to_file("System specific types", final_hash)
 
-    # TODO: KEEP
     def test_large_data_structures(self):
         """Test the pickling of large data structures."""
         print(Fore.CYAN + "\nRunning test_large_data_structures...")
@@ -269,7 +261,6 @@ class TestPickleStability(PickleTestBase):
 
         self.write_to_file("Large data", final_hash)
 
-    # TODO: KEEP
     def test_meta_classes_and_dynamic_creation(self):
         """Test the pickling of dynamically created classes with metaclasses."""
         print(Fore.CYAN + "\nRunning test_meta_classes_and_dynamic_creation...")
@@ -289,7 +280,6 @@ class TestPickleStability(PickleTestBase):
 
         self.write_to_file("Meta classes dynamic creation", final_hash)
 
-    # TODO: KEEP
     def test_endianess_effect_on_serialization(self):
         """Test the effect of endianess on serialization."""
         print(Fore.CYAN + "\nRunning test_endianess_effect_on_serialization...")
@@ -310,7 +300,6 @@ class TestPickleStability(PickleTestBase):
 
         self.write_to_file("Endianess effect", final_hash)
 
-    # TODO: KEEP
     def test_function_memory_address(self):
         """Test the pickling of function memory addresses."""
         print(Fore.CYAN + "\nRunning test_function_memory_address...")
@@ -331,7 +320,6 @@ class TestPickleStability(PickleTestBase):
 
         self.write_to_file("Function memory address", final_hash)
 
-    # TODO: KEEP
     def test_custom_object_serialization(self):
         """Test serialization of CustomObject."""
         print(Fore.CYAN + "\nRunning custom_object...")
@@ -353,36 +341,7 @@ class TestPickleStability(PickleTestBase):
         finally:
             self.write_to_file("Custom object", final_hash)
 
-    """
-    # TODO: HOLD
-    def run_pickle_operations(self, data, results, index):
-        results[index] = self.serialize_and_hash(data)
-    """
-    # TODO: HOLD
-    """
-    def test_thread_safety_in_serialization(self):
-        #Test thread safety during serialization.
-        print(Fore.CYAN + "\nRunning test_thread_safety_in_serialization...")
-        num_threads = 10
-        threads = []
-        results = [None] * num_threads
-
-        for i in range(num_threads):
-            thread = Thread(target=self.run_pickle_operations, args=(self.data, results, i))
-            threads.append(thread)
-            thread.start()
-
-        for thread in threads:
-            thread.join()
-
-        first_hash = results[0]
-        for i in range(1, num_threads):
-            self.compare_hashes(first_hash, results[i])
-
-        print(Fore.GREEN + "All thread serialization results match.")
-        self.write_to_file("Thread safety", first_hash)
-    """
-    # TODO: KEEP
+    # NOT WORKING FOR LINUX; HOWEVER, KEEP FOR FUTURE WORK!
     def test_locale_sensitivity(self):
         """Test the sensitivity of serialization to locale changes."""
         print(Fore.CYAN + "\nRunning test_locale_sensitivity...")
@@ -402,7 +361,6 @@ class TestPickleStability(PickleTestBase):
         print(Fore.GREEN + "Locale serialization test passed.")
         self.write_to_file("Locale sensitivity", us_hash)
 
-    # TODO: KEEP
     def test_filesystem_path_serialization(self):
         """Test the serialization of filesystem paths."""
         print(Fore.CYAN + "\nRunning test_filesystem_path_serialization...")
@@ -422,7 +380,6 @@ class TestPickleStability(PickleTestBase):
 
         self.write_to_file("Filesystem path", final_hash)
     
-    # TODO: KEEP
     def test_line_endings_serialization(self):
         """Test the serialization of text with different line endings."""
         print(Fore.CYAN + "\nRunning test_line_endings_serialization...")
@@ -443,7 +400,6 @@ class TestPickleStability(PickleTestBase):
 
         self.write_to_file("Line endings", initial_hash)
 
-    # TODO: 
     def test_environment_variable_effect(self):
         """Test the effect of environment variables on serialization."""
         print(Fore.CYAN + "\nRunning test_environment_variable_effect...")

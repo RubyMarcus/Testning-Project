@@ -10,6 +10,8 @@ init(autoreset=True)
 class TestHashComparison(unittest.TestCase):
 
     def test_hash_comparison_across_environments(self):
+        """Tests hash between python versions"""
+
         # Detect the operating system
         os_name = platform.system()
         file_pattern = f"{os_name}/hash_{os_name}*.txt"
