@@ -38,7 +38,7 @@ To run the project on Linux and macOS, you need to install Python versions 3.6 t
 
 ### Prerequisites for Windows..
 
-### Comparing result between operating systems.
+### Comparing result between operating systems
 
 To compare the result gained from running the bash scripts on Windows, Linux and macOS, use the following command:
    ```bash
