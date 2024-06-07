@@ -5,7 +5,7 @@
 
 ## Project Setup Instructions
 
-### Prerequisites
+### Prerequisites for Linux and macOS
 
 To run the project on Linux and macOS, you need to install Python versions 3.6 through 3.12. 
 
@@ -36,7 +36,32 @@ To run the project on Linux and macOS, you need to install Python versions 3.6 t
 5. **Compare Test Results:**
    The bash script will also run **`test_hash_comparison`**, which compares the results across Python versions 3.6 to 3.12.
 
-### Prerequisites for Windows..
+### Prerequisites for Windows
+
+To run the project on Windows, you need to install Python versions 3.6 through 3.12 for both 32-bit and 64-bit.
+
+1. **Install Python Versions:**
+   Use `pyenv` to install the required Python versions. For example, to install Python 3.6 (64bit) and Python 3.6 (32bit), run:
+   ```bash
+   pyenv install 3.6.8
+   pyenv install 3.6.8-win32
+   
+2. **Verify Python Installations:**
+   After installing all python versions, you should have the following versions
+   ```bash
+   3.6.8   3.6.8-win32   3.7.9   3.7.9-win32   3.8.10   3.8.10-win32   3.9.7   3.9.7-win32   3.10.1   3.10.1-win32   3.11.9   3.11.9-win32   3.12.3   3.12.3-win32
+3. **Running the Test Suite:**
+   Run the following bash script to execute the test suite:
+   ```bash
+   ./run_tests_win.sh
+   ```
+   This script will:
+   - Activate each Python environment
+   - Install **colorama** for better visualization (WON'T WORK ON WINDOWS)
+   - Run the test suite
+   - Deactivate the environment
+4. **Compare Test Results:**
+   The bash script will also run **`test_hash_comparison`**, which compares the results across Python versions 3.6 to 3.12.
 
 ### Comparing result between operating systems
 
