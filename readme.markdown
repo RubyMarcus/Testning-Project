@@ -27,5 +27,10 @@ To run the project on Linux and macOS, you need to install Python versions 3.6 t
    Run the following bash script to execute the test suite:
    ```bash
    ./run_tests.sh
+   This script will:
+   * Activate each Python environment
+   * Install **colorama** for better visualization
+   * Run the test suite
+   * Deactivate the environment
 5. **Compare Test Results:**
    The script will also run **`test_hash_comparison`**, which compares the results across Python versions 3.6 to 3.12.
