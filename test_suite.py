@@ -2,7 +2,7 @@ import unittest
 import pickle
 import os
 import platform
-from compare_hashes import hash_file  # Ensure this module is available
+from utils import hash_file  # Ensure this module is available
 from colorama import init, Fore, Style
 from decimal import Decimal
 import array

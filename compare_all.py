@@ -28,7 +28,7 @@ def compare_hash_files(file_paths):
     all_match = True
 
     for version, folder_hashes in hash_contents.items():
-        print(f"Comparing version: {version} with folders: {list(folder_hashes.keys())}")
+        #print(f"Comparing version: {version} with folders: {list(folder_hashes.keys())}")
         if len(folder_hashes) == 3:  # Check if all three folders are present
             data_types = set()
             for hash_dict in folder_hashes.values():
@@ -39,12 +39,13 @@ def compare_hash_files(file_paths):
                 unique_hashes = set(hash_values.values())
 
                 # Log the values being compared for debugging
-                print(f"\nComparing {data_name} in {version}:")
-                for folder, hash_value in hash_values.items():
-                    print(f"{folder}: {hash_value}")
+                # print(f"\nComparing {data_name} in {version}:")
+                #for folder, hash_value in hash_values.items():
+                    #print(f"{folder}: {hash_value}")
 
                 if len(unique_hashes) == 1:
-                    print(Fore.GREEN + f"All hash values for {data_name} in {version} match: {unique_hashes.pop()}")
+                    #print(Fore.GREEN + f"All hash values for {data_name} in {version} match: {unique_hashes.pop()}")                   
+                    continue
                 else:
                     all_match = False
                     print(Fore.RED + f"Hashes for {data_name} in {version} do not match:")
@@ -71,8 +72,8 @@ def main():
         "Linux/hash_Linux_3.10.1.txt",
         "Linux/hash_Linux_3.11.9.txt",
         "Linux/hash_Linux_3.12.3.txt",
-        "Windows/hash_Windows_3.6.15.txt",
-        "Windows/hash_Windows_3.7.17.txt",
+        "Windows/hash_Windows_3.6.15.txt", # actually version 3.6.8 (latest version)
+        "Windows/hash_Windows_3.7.17.txt", # actually version 3.7.8 (latest version)
         "Windows/hash_Windows_3.8.12.txt",
         "Windows/hash_Windows_3.9.7.txt",
         "Windows/hash_Windows_3.10.1.txt",
