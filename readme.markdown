@@ -49,7 +49,8 @@ To run the project on Windows, you need to install Python versions 3.6 through 3
 2. **Verify Python Installations:**
    After installing all python versions, you should have the following versions
    ```bash
-   3.6.8   3.6.8-win32   3.7.9   3.7.9-win32   3.8.10   3.8.10-win32   3.9.7   3.9.7-win32   3.10.1   3.10.1-win32   3.11.9   3.11.9-win32   3.12.3   3.12.3-win32
+   3.6.8   3.6.8-win32   3.7.9   3.7.9-win32   3.8.10   3.8.10-win32   3.9.7   3.9.7-win32
+   3.10.1   3.10.1-win32   3.11.9   3.11.9-win32   3.12.3   3.12.3-win32
 3. **Running the Test Suite:**
    Run the following bash script to execute the test suite:
    ```bash
